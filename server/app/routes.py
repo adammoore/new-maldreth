@@ -33,3 +33,26 @@ def get_lifecycle_data():
     ]
 
     return jsonify({'stages': stages_data, 'connections': connections_data})
+
+@main_bp.route('/dynamic')
+def dynamic_view():
+    stages = Stage.query.all()
+    connections = CycleConnect.query.all()
+    return render_template('dynamic_view.html', stages=stages, connections=connections)
+
+@main_bp.route('/static')
+def static_view():
+    stages = Stage.query.all()
+    connections = CycleConnect.query.all()
+    return render_template('static_view.html', stages=stages, connections=connections)
+
+@main_bp.route('/schema')
+def schema_view():
+    stages = Stage.query.all()
+    substages = Substage.query.all()
+    tools = Tool.query.all()
+    return render_template('schema_view.html', stages=stages, substages=substages, tools=tools)
+
+@main_bp.route('/text')
+def text_view():
+    return render_template('text_view.html')
