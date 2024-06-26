@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Dynamic View</h1>
+<div id="dynamic-graph"></div>
+
+<script src="https://d3js.org/d3.v6.min.js"></script>
+<script>
+    var stages = {{ stages | tojson }};
+    var connections = {{ connections | tojson }};
+
+    // Implement dynamic visualization using D3.js
+    // ...
+</script>
+{% endblock %}

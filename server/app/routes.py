@@ -1,4 +1,6 @@
 from flask import Blueprint, render_template, jsonify
+from flask import request, redirect, url_for
+
 from .models import Stage, Substage, Tool, CycleConnect
 from . import db
 
@@ -26,33 +28,49 @@ def get_lifecycle_data():
 
     connections_data = [
         {
-            'start': conn.start,
-            'end': conn.end,
-            'type': conn.type
+            'source_stage_id': conn.source_stage_id,
+            'destination_stage_id': conn.destination_stage_id,
         } for conn in connections
     ]
 
     return jsonify({'stages': stages_data, 'connections': connections_data})
 
-@main_bp.route('/dynamic')
+@main.route('/dynamic')
 def dynamic_view():
     stages = Stage.query.all()
     connections = CycleConnect.query.all()
     return render_template('dynamic_view.html', stages=stages, connections=connections)
 
-@main_bp.route('/static')
+@main.route('/static')
 def static_view():
     stages = Stage.query.all()
     connections = CycleConnect.query.all()
     return render_template('static_view.html', stages=stages, connections=connections)
 
-@main_bp.route('/schema')
+@main.route('/schema')
 def schema_view():
     stages = Stage.query.all()
     substages = Substage.query.all()
     tools = Tool.query.all()
     return render_template('schema_view.html', stages=stages, substages=substages, tools=tools)
 
-@main_bp.route('/text')
+@main.route('/text')
 def text_view():
     return render_template('text_view.html')
+
+
+@main.route('/tools', methods=['GET', 'POST'])
+def manage_tools():
+    if request.method == 'POST':
+        tool = Tool(
+            name=request.form['name'],
+            description=request.form['description'],
+            stage_id=request.form['stage_id']
+        )
+        db.session.add(tool)
+        db.session.commit()
+        return redirect(url_for('main.manage_tools'))
+
+    tools = Tool.query.all()
+    stages = Stage.query.all()
+    return render_template('tools_management.html', tools=tools, stages=stages)

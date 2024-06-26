@@ -1,35 +1,34 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="flex">
-    <div class="w-1/4 pr-4">
-        <h2 class="text-xl font-semibold mb-2">Select View:</h2>
-        <button class="block w-full text-left p-2 mb-2 bg-blue-500 text-white" onclick="showView('lifecycle')">Lifecycle</button>
-        <button class="block w-full text-left p-2 mb-2 bg-gray-200" onclick="showView('details')">Details</button>
-        <button class="block w-full text-left p-2 mb-2 bg-gray-200" onclick="showView('text')">Text</button>
-        <button class="block w-full text-left p-2 mb-2 bg-gray-200" onclick="showView('schema')">Schema</button>
-        <button class="block w-full text-left p-2 mb-2 bg-gray-200" onclick="showView('edit')">Edit Data</button>
-    </div>
-    <div class="w-3/4">
-        <div id="lifecycle-view" class="view-content">
-            <div id="lifecycle-plot"></div>
-        </div>
-        <div id="details-view" class="view-content hidden">
-            <h2 class="text-2xl font-bold mb-4">Stage Details</h2>
-            <div id="stage-details"></div>
-        </div>
-        <div id="text-view" class="view-content hidden">
-            <h2 class="text-2xl font-bold mb-4">Text View</h2>
-            <p>This is the text view of the Research Data Lifecycle.</p>
-        </div>
-        <div id="schema-view" class="view-content hidden">
-            <h2 class="text-2xl font-bold mb-4">Schema View</h2>
-            <p>This is the schema view of the Research Data Lifecycle.</p>
-        </div>
-        <div id="edit-view" class="view-content hidden">
-            <h2 class="text-2xl font-bold mb-4">Edit Data</h2>
-            <p>This is where you can edit the Research Data Lifecycle data.</p>
-        </div>
-    </div>
-</div>
+<h1>MaLDReTH Prototype</h1>
+<nav>
+    <ul>
+        <li>
+            <a href="{{ url_for('main.dynamic_view') }}">
+                <button class="block w-full text-left p-2 mb-2 bg-blue-500 text-white">Dynamic View</button>
+            </a>
+        </li>
+        <li>
+            <a href="{{ url_for('main.static_view') }}">
+                <button class="block w-full text-left p-2 mb-2 bg-gray-200">Static View</button>
+            </a>
+        </li>
+        <li>
+            <a href="{{ url_for('main.schema_view') }}">
+                <button class="block w-full text-left p-2 mb-2 bg-gray-200">Schema View</button>
+            </a>
+        </li>
+        <li>
+            <a href="{{ url_for('main.text_view') }}">
+                <button class="block w-full text-left p-2 mb-2 bg-gray-200">Text View</button>
+            </a>
+        </li>
+        <li>
+            <a href="{{ url_for('main.manage_tools') }}">
+                <button class="block w-full text-left p-2 mb-2 bg-gray-200">Tools View</button>
+            </a>
+        </li>
+    </ul>
+</nav>
 {% endblock %}

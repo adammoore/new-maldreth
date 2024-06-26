@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Static View</h1>
+<div id="static-graph"></div>
+
+<script src="https://d3js.org/d3.v6.min.js"></script>
+<script>
+    var stages = {{ stages | tojson }};
+    var connections = {{ connections | tojson }};
+
+    // Implement static visualization using D3.js
+    // ...
+</script>
+{% endblock %}

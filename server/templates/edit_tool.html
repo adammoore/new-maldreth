@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Edit Tool</h1>
+<form method="POST">
+    <input type="hidden" name="id" value="{{ tool.id }}">
+    <input type="text" name="name" value="{{ tool.name }}" required>
+    <textarea name="description" required>{{ tool.description }}</textarea>
+    <select name="stage_id">
+        {% for stage in stages %}
+        <option value="{{ stage.id }}" {% if stage.id == tool.stage_id %}selected{% endif %}>{{ stage.stage }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit">Update Tool</button>
+</form>
+<a href="{{ url_for('main.manage_tools') }}">Back to tool management</a>
+{% endblock %}

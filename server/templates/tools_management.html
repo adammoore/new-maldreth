@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Tool Management</h1>
+<form method="POST">
+    <h2>Add New Tool</h2>
+    <input type="text" name="name" placeholder="Tool Name" required>
+    <textarea name="description" placeholder="Tool Description" required></textarea>
+    <select name="stage_id">
+        {% for stage in stages %}
+        <option value="{{ stage.id }}">{{ stage.stage }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit">Add Tool</button>
+</form>
+
+<h2>Existing Tools</h2>
+<ul>
+    {% for tool in tools %}
+    <li>
+        {{ tool.name }} - {{ tool.description }} ({{ tool.stage.stage }})
+        <a href="{{ url_for('main.edit_tool', tool_id=tool.id) }}">Edit</a>
+    </li>
+    {% endfor %}
+</ul>
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <ul class="flashes">
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+{% endwith %}
+{% endblock %}

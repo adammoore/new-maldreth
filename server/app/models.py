@@ -1,4 +1,4 @@
-from .app import db
+from .extensions import db
 
 class Stage(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -35,7 +35,7 @@ class Tool(db.Model):
     toolProvider = db.Column(db.String(100))
     stage_id = db.Column(db.Integer, db.ForeignKey('stage.id'), nullable=False)
 
-class CycleConnect(db.Model):
+#class CycleConnect(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     start = db.Column(db.Integer, nullable=False)
     end = db.Column(db.Integer, nullable=False)

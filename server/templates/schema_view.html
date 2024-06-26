@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Schema View</h1>
+<img src="{{ url_for('static', filename='images/schema.png') }}" alt="Schema Image" class="center-image">
+
+<h2>Stages</h2>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Stage</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for stage in stages %}
+        <tr>
+            <td>{{ stage.id }}</td>
+            <td>{{ stage.stage }}</td>
+            <td>{{ stage.description }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h2>Substages</h2>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Substage</th>
+            <th>Description</th>
+            <th>Stage</th>
+            <th>Exemplar</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for substage in substages %}
+        <tr>
+            <td>{{ substage.id }}</td>
+            <td>{{ substage.name }}</td>
+            <td>{{ substage.description }}</td>
+            <td>{{ substage.stage.stage }}</td>
+            <td>
+                {% if substage.exemplar %}
+                {{ substage.exemplar.name }}
+                {% else %}
+                N/A
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h2>Tools</h2>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Link</th>
+            <th>Provider</th>
+            <th>Stage</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for tool in tools %}
+        <tr>
+            <td>{{ tool.id }}</td>
+            <td>{{ tool.name }}</td>
+            <td>{{ tool.description }}</td>
+            <td><a href="{{ tool.link }}">{{ tool.link }}</a></td>
+            <td>{{ tool.provider }}</td>
+            <td>{{ tool.stage.stage }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
