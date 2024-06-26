@@ -1,7 +1,5 @@
-from flask import Blueprint, render_template, jsonify
-from flask import request, redirect, url_for
-
-from .models import Stage, Substage, Tool, CycleConnect
+from flask import request, redirect, url_for, render_template, flash
+from .models import Stage, Tool
 from . import db
 
 main = Blueprint('main', __name__)
@@ -58,19 +56,44 @@ def schema_view():
 def text_view():
     return render_template('text_view.html')
 
-
 @main.route('/tools', methods=['GET', 'POST'])
 def manage_tools():
     if request.method == 'POST':
-        tool = Tool(
-            name=request.form['name'],
-            description=request.form['description'],
-            stage_id=request.form['stage_id']
-        )
-        db.session.add(tool)
-        db.session.commit()
+        if request.form.get('id'):
+            # Edit existing tool
+            tool = Tool.query.get(request.form['id'])
+            if tool:
+                tool.name = request.form['name']
+                tool.description = request.form['description']
+                tool.stage_id = request.form['stage_id']
+                db.session.commit()
+                flash('Tool updated successfully!')
+        else:
+            # Add new tool
+            tool = Tool(
+                name=request.form['name'],
+                description=request.form['description'],
+                stage_id=request.form['stage_id']
+            )
+            db.session.add(tool)
+            db.session.commit()
+            flash('Tool added successfully!')
+
         return redirect(url_for('main.manage_tools'))
 
     tools = Tool.query.all()
     stages = Stage.query.all()
     return render_template('tools_management.html', tools=tools, stages=stages)
+
+@main.route('/edit_tool/<int:tool_id>', methods=['GET', 'POST'])
+def edit_tool(tool_id):
+    tool = Tool.query.get_or_404(tool_id)
+    if request.method == 'POST':
+        tool.name = request.form['name']
+        tool.description = request.form['description']
+        tool.stage_id = request.form['stage_id']
+        db.session.commit()
+        flash('Tool updated successfully!')
+        return redirect(url_for('main.manage_tools'))
+    stages = Stage.query.all()
+    return render_template('edit_tool.html', tool=tool, stages=stages)
